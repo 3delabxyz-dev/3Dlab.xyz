@@ -155,14 +155,14 @@ footer{background:var(--ink);color:var(--grey);padding:2rem 0;font:.85rem var(--
 .form-status.error{display:block;background:var(--ink);color:#ff7b8c}
 .ck{display:flex;gap:.6rem;align-items:flex-start;font-weight:400;text-transform:none;letter-spacing:0;font-size:.9rem}
 .ck input{width:auto;margin-top:.3rem;accent-color:var(--blue)}
-/* halvány, lágy szélű királykék kiemelés a csíkokon álló szövegek alatt */
-.layers{--hlc:rgba(28,59,255,.12)}
-.layers-dark{--hlc:rgba(28,59,255,.26)}
-.hero-l h1,.hero-l p,section h2,section .lead,.steps h3,.steps p,.card.layers label,.card.layers .ck span,.drop p,.drop small,.drop .fi,.facts div{position:relative;isolation:isolate}
-.hero-l h1,.hero-l p,section h2,section .lead,.steps h3,.steps p,.card.layers label,.card.layers .ck span,.drop p,.drop small,.drop .fi{width:fit-content}
-.drop p,.drop small,.drop .fi{margin-left:auto;margin-right:auto}
-.hero-l h1::before,.hero-l p::before,section h2::before,section .lead::before,.steps h3::before,.steps p::before,.card.layers label::before,.card.layers .ck span::before,.drop p::before,.drop small::before,.drop .fi::before,.facts div::before{content:"";position:absolute;z-index:-1;inset:-.3em -.8em;background:var(--hlc);filter:blur(10px);pointer-events:none}
-.facts div::before{inset:.4rem .6rem}
+/* olvashatóság ott, ahol a szöveg közvetlenül a rétegcsíkokon áll */
+.layers{--halo:var(--off)}
+.layers-dark{--halo:#1b1b1d}
+.hero-l h1,.hero-l p,section h2,section .lead,.facts div,.facts strong,.steps h3,.steps p,.card.layers label,.card.layers .ck span,.rng b,.drop p,.drop small,.drop .fi{
+  text-shadow:0 0 1px var(--halo),0 0 2px var(--halo),0 0 3px var(--halo),0 0 5px var(--halo),0 0 8px var(--halo),0 0 11px var(--halo),0 0 14px var(--halo),2px 0 4px var(--halo),-2px 0 4px var(--halo),0 2px 4px var(--halo),0 -2px 4px var(--halo)}
+.hero-l p,section .lead,.facts div,.steps p,.card.layers label,.card.layers .ck span,.drop small{-webkit-text-stroke:.25px currentColor}
+.hero-l h1,section h2{text-shadow:0 0 2px var(--halo),0 0 4px var(--halo),0 0 6px var(--halo),1px 0 3px var(--halo),-1px 0 3px var(--halo)}
+.hero-l h1 span{text-shadow:none}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.btn{transition:none}}
 </style>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
