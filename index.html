@@ -599,11 +599,14 @@ function calc(){
 const SEND_ATTACHMENT=true;
 const ATT_MAX=5*1024*1024;
 const MAX_FILE=100*1024*1024,CHUNK=4*1024*1024;
+// Fájlfeltöltő szerver teljes címe (pl. 'https://valami.netlify.app/api/upload'). A GitHub Pages csak statikus oldal,
+// ott nincs /api/upload, ezért üresen hagyva a feltöltés kimarad, és a küldés fájllink nélkül is működik.
+const UPLOAD_URL='';
 async function uploadFile(f,onProgress){
   const total=Math.max(1,Math.ceil(f.size/CHUNK));let id='',url='';
   for(let i=0;i<total;i++){
     const q=new URLSearchParams({name:f.name,part:i,total});if(id)q.set('id',id);
-    const r=await fetch('/api/upload?'+q,{method:'POST',headers:{'Content-Type':'application/octet-stream'},body:f.slice(i*CHUNK,(i+1)*CHUNK)});
+    const r=await fetch(UPLOAD_URL+'?'+q,{method:'POST',headers:{'Content-Type':'application/octet-stream'},body:f.slice(i*CHUNK,(i+1)*CHUNK)});
     const j=await r.json().catch(()=>({}));
     if(!r.ok||!j.id)throw new Error(j.error||'Feltöltési hiba');
     id=j.id;url=j.url;onProgress&&onProgress(Math.round((i+1)/total*100));
@@ -623,17 +626,19 @@ $('quoteForm').addEventListener('submit',async function(e){
   const f=(!$('sPrint').hidden?$('file'):$('dfile')).files[0];
   fd.delete('stl_file');fd.delete('terv_skicc_file');
   if(f){
-    if(f.size>MAX_FILE){st.className='form-status error';st.textContent='A fájl nagyobb 100 MB-nál. Tömörítsd ZIP-be, vagy küldd e-mailben.';btn.disabled=false;btn.textContent='Ajánlatkérés elküldése';return}
+    const maxAllowed=UPLOAD_URL?MAX_FILE:ATT_MAX*2;
     fd.set('fajl_neve',f.name+' ('+(f.size/1048576).toFixed(1)+' MB)');
-    try{
-      const link=await uploadFile(f,p=>btn.textContent='Fájl feltöltése... '+p+'%');
-      fd.set('fajl_letoltese',link);
-    }catch(err){
-      st.className='form-status error';st.textContent='A fájl feltöltése nem sikerült ('+err.message+'). Kérjük próbáld újra!';
-      btn.disabled=false;btn.textContent='Ajánlatkérés elküldése';return;
+    let linked=false;
+    if(UPLOAD_URL){
+      if(f.size>MAX_FILE){st.className='form-status error';st.textContent='A fájl nagyobb 100 MB-nál. Tömörítsd ZIP-be, vagy küldd e-mailben.';btn.disabled=false;btn.textContent='Ajánlatkérés elküldése';return}
+      try{
+        const link=await uploadFile(f,p=>btn.textContent='Fájl feltöltése... '+p+'%');
+        fd.set('fajl_letoltese',link);linked=true;
+      }catch(err){console.warn('Feltöltés sikertelen:',err)}   // nem állítjuk meg a küldést
+      btn.textContent='Küldés folyamatban...';
     }
-    btn.textContent='Küldés folyamatban...';
     if(SEND_ATTACHMENT&&f.size<=ATT_MAX)fd.append('attachment',f);
+    else if(!linked)fd.set('megjegyzes_fajlrol','A fájl nem került csatolásra, kérd el az ügyféltől ('+f.name+').');
   }
   fd.set('replyto',$('em').value);
   fd.set('from_name','3Dlab.xyz');
