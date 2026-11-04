@@ -155,13 +155,13 @@ footer{background:var(--ink);color:var(--grey);padding:2rem 0;font:.85rem var(--
 .form-status.error{display:block;background:var(--ink);color:#ff7b8c}
 .ck{display:flex;gap:.6rem;align-items:flex-start;font-weight:400;text-transform:none;letter-spacing:0;font-size:.9rem}
 .ck input{width:auto;margin-top:.3rem;accent-color:var(--blue)}
-  /* vékony kis szövegek jobb olvashatósága */
-:root{--grey:#bdbdb9;--mid:#272725}
-html{font-size:106%}
-.lead,.hero-l p,.route p,.steps p,.side li,details p,.drop small,.tab span,.facts div,.studio figcaption em,.an div,.bd,.offer p,.ck,label,footer,nav ul a,summary,td,th,input,select,textarea{-webkit-text-stroke:.3px currentColor;letter-spacing:.012em}
-.drop small,.tab span,.facts div,.studio figcaption em,.offer p,.side li,.route p,.steps p,details p,.an div,.ck,.bd{font-size:1rem}
-.tab[aria-pressed=true] span{color:#b4c0ff}
-::placeholder{color:#4a4a46;opacity:1}
+/* olvashatóság ott, ahol a szöveg közvetlenül a rétegcsíkokon áll */
+.layers{--halo:var(--off)}
+.layers-dark{--halo:#1b1b1d}
+.hero-l h1,.hero-l p,section h2,section .lead,.facts div,.facts strong,.steps h3,.steps p,.card.layers label,.card.layers .ck span,.rng b,.drop p,.drop small,.drop .fi{
+  text-shadow:0 0 1px var(--halo),0 0 2px var(--halo),0 0 3px var(--halo),0 0 4px var(--halo),0 0 6px var(--halo),1px 0 2px var(--halo),-1px 0 2px var(--halo),0 1px 2px var(--halo),0 -1px 2px var(--halo)}
+.hero-l p,section .lead,.facts div,.steps p,.card.layers label,.card.layers .ck span,.drop small{-webkit-text-stroke:.25px currentColor}
+.hero-l h1 span{text-shadow:none}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.btn{transition:none}}
 </style>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
