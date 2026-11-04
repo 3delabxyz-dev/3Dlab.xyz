@@ -155,6 +155,13 @@ footer{background:var(--ink);color:var(--grey);padding:2rem 0;font:.85rem var(--
 .form-status.error{display:block;background:var(--ink);color:#ff7b8c}
 .ck{display:flex;gap:.6rem;align-items:flex-start;font-weight:400;text-transform:none;letter-spacing:0;font-size:.9rem}
 .ck input{width:auto;margin-top:.3rem;accent-color:var(--blue)}
+  /* vékony kis szövegek jobb olvashatósága */
+:root{--grey:#bdbdb9;--mid:#272725}
+html{font-size:106%}
+.lead,.hero-l p,.route p,.steps p,.side li,details p,.drop small,.tab span,.facts div,.studio figcaption em,.an div,.bd,.offer p,.ck,label,footer,nav ul a,summary,td,th,input,select,textarea{-webkit-text-stroke:.3px currentColor;letter-spacing:.012em}
+.drop small,.tab span,.facts div,.studio figcaption em,.offer p,.side li,.route p,.steps p,details p,.an div,.ck,.bd{font-size:1rem}
+.tab[aria-pressed=true] span{color:#b4c0ff}
+::placeholder{color:#4a4a46;opacity:1}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.btn{transition:none}}
 </style>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
