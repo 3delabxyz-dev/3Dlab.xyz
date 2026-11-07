@@ -164,6 +164,42 @@ footer{background:var(--ink);color:var(--grey);padding:2rem 0;font:.85rem var(--
 .hero-l h1,section h2{text-shadow:0 0 2px var(--halo),0 0 4px var(--halo),0 0 6px var(--halo),1px 0 3px var(--halo),-1px 0 3px var(--halo)}
 .hero-l h1 span{text-shadow:none}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.btn{transition:none}}
+
+/* --- előbeállítások, fájllista, modal --- */
+.pre-g{margin-bottom:1.5rem}
+.pre-t{font-weight:900;font-size:.8rem;text-transform:uppercase;letter-spacing:.07em;margin-bottom:.5rem}
+.pre{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));border:2px solid var(--ink);transition:opacity .25s}
+.pre button{padding:.7rem .6rem;text-align:left;background:#b9b9b6;border:0;border-right:2px solid var(--ink);font:inherit;color:var(--ink);cursor:pointer}
+.pre button:last-child{border-right:0}
+.pre button b{display:block;text-transform:uppercase;font-size:.95rem;letter-spacing:-.02em}
+.pre button small{display:block;font-size:.75rem;color:var(--mid)}
+.pre button[aria-pressed=true]{background:var(--ink);color:var(--off)}
+.pre button[aria-pressed=true] small{color:#8da0ff}
+.pre button:disabled{opacity:.35;cursor:not-allowed;background-image:repeating-linear-gradient(135deg,transparent 0 6px,rgba(0,0,0,.15) 6px 8px)}
+.pre-g.dim .pre{opacity:.4}
+.pre-h{font-size:.82rem;color:var(--mid);margin-top:.4rem}
+.pre-n{display:none;font-size:.82rem;color:#c01030;font-weight:700;margin-top:.4rem}
+.pre-g.dim .pre-n{display:block}
+.adv{border-top:3px solid var(--ink);padding-top:1rem;margin-bottom:.4rem}
+.adv2{display:grid;grid-template-columns:1fr 1fr;gap:0 1rem}
+@media(max-width:520px){.adv2{grid-template-columns:1fr}}
+.flist{margin-bottom:1rem}
+.frow{display:flex;gap:.5rem;align-items:center;border:2px solid var(--ink);background:#b9b9b6;margin-bottom:-2px;padding-right:.4rem}
+.frow.sel{background:var(--ink);color:var(--off)}
+.fn{flex:1;text-align:left;background:none;border:0;font:700 .9rem var(--f);color:inherit;padding:.6rem .7rem;cursor:pointer;word-break:break-all}
+.fs{font-size:.72rem;text-transform:uppercase;letter-spacing:.05em;color:var(--mid);white-space:nowrap}
+.frow.sel .fs{color:#8da0ff}.frow.bad .fs{color:#c01030;font-weight:900}
+.fq{width:4rem!important;padding:.25rem .4rem!important}
+.fx{background:none;border:0;color:inherit;font:900 1.3rem var(--f);cursor:pointer;padding:0 .4rem}
+.fmsg{color:#c01030;font-weight:700;font-size:.85rem;margin-bottom:.8rem}
+#dImg{display:none;width:100%;height:260px;object-fit:contain;background:#1b1b1d}
+.modal{position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.75);display:grid;place-items:center;padding:1rem;overflow:auto}
+.modal[hidden]{display:none}
+.mbox{background:var(--off);color:var(--ink);border:var(--bd);box-shadow:10px 10px 0 var(--blue);max-width:580px;padding:1.6rem}
+.mbox h3{font-size:1.6rem;margin-bottom:1rem;color:#c01030}
+.mbox p{margin-bottom:.8rem;font-size:.95rem}
+.mbtn{display:flex;gap:1rem;flex-wrap:wrap;margin-top:1.4rem}
+.mbtn .btn{box-shadow:4px 4px 0 var(--ink);padding:.8rem 1.1rem;font-size:.9rem}
 </style>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
@@ -190,6 +226,7 @@ footer{background:var(--ink);color:var(--grey);padding:2rem 0;font:.85rem var(--
   <g id="elbow"><path d="M-30 0V-120C-30-175-10-192 55-192H150V-128H62C42-128 30-112 30-84V0Z" fill="url(#rim)"/><path d="M-30 0V-120C-30-175-10-192 55-192H150V-128H62C42-128 30-112 30-84V0Z" fill="url(#ln)"/><path d="M-48 0V-16H48V0ZM-48-16V-30H48V-16Z" fill="url(#rim)"/><path d="M-48 0V-16H48V0ZM-48-16V-30H48V-16Z" fill="url(#ln)"/></g>
 </defs></svg>
 
+<div class="modal" id="modal" hidden><div class="mbox" role="alertdialog" aria-modal="true" aria-labelledby="mT"><h3 id="mT">A modell nem fér be a nyomtatótérbe</h3><div id="mBody"></div><div class="mbtn"><button type="button" class="btn" id="mGo">Folytatás, feldarabolást kérek</button><button type="button" class="btn alt" id="mCancel">Mégse, fájl cseréje</button></div></div></div>
 <nav><div class="wrap">
   <a class="logo" href="#">3Dlab<i>.xyz</i></a>
   <ul>
@@ -227,7 +264,7 @@ footer{background:var(--ink);color:var(--grey);padding:2rem 0;font:.85rem var(--
     </div>
   </div>
   <div class="facts layers-dark">
-    <div><strong>200 <em>Ft/ó</em></strong>gépidő</div>
+    <div><strong>450 <em>Ft/ó</em></strong>gépidő</div>
     <div><strong>256×256×256</strong>mm tálca</div>
     <div><strong>Akár mérnöki</strong>filamentek nyomtatása</div>
     <div><strong>Gyors</strong>ajánlatküldés</div>
@@ -276,12 +313,12 @@ footer{background:var(--ink);color:var(--grey);padding:2rem 0;font:.85rem var(--
     <div id="sPrint">
       <div class="drop" id="drop" tabindex="0" role="button" aria-label="3D modell kiválasztása">
         <p><strong>Húzd ide a 3D modellt</strong></p>
-        <small>STL, 3MF, OBJ, STEP, IGES, AMF, PLY, G-code vagy ZIP, max. 100 MB. Kattints a tallózáshoz.</small>
+        <small>STL, 3MF, OBJ, STEP, IGES, AMF, PLY, G-code vagy ZIP, max. 100 MB. Több fájlt is feltölthetsz egyszerre. Kattints a tallózáshoz.</small>
         <div class="fi" id="fi">Nincs fájl kiválasztva</div>
-        <input type="file" id="file" name="stl_file" accept=".stl,.3mf,.obj,.step,.stp,.iges,.igs,.amf,.ply,.gcode,.3ds,.f3d,.scad,.zip" hidden>
+        <input type="file" id="file" name="stl_file" multiple accept=".stl,.3mf,.obj,.step,.stp,.iges,.igs,.amf,.ply,.gcode,.3ds,.f3d,.scad,.zip" hidden>
       </div>
-      <div class="stl-preview-wrap" id="stlPreviewWrap">
-        <div class="stl-preview-tag">3D előnézet (egérrel forgatható)</div>
+      <div class="flist" id="pList"></div><div class="fmsg" id="pMsg"></div><div class="stl-preview-wrap" id="stlPreviewWrap">
+        <div class="stl-preview-tag" id="pTag">3D előnézet</div>
         <div id="stlCanvasContainer"></div>
       </div>
       <div class="an" id="an">
@@ -293,7 +330,22 @@ footer{background:var(--ink);color:var(--grey);padding:2rem 0;font:.85rem var(--
         <div><span>Becsült nyomtatási idő</span><strong id="vT">-</strong></div>
       </div>
 
-      <div class="fg"><label for="mat">Filament anyag</label>
+      <div class="pre-g" id="gSurf"><div class="pre-t">1. Felület minősége</div>
+      <div class="pre" id="bSurf">
+        <button type="button" data-k="fine"><b>Extra finom</b><small>0,2 mm fúvóka · 0,06 mm réteg</small></button>
+        <button type="button" data-k="mid"><b>Normál</b><small>0,4 mm fúvóka · 0,2 mm réteg</small></button>
+        <button type="button" data-k="rough"><b>Gyors / durva</b><small>0,8 mm fúvóka · 0,56 mm réteg</small></button>
+      </div>
+      <p class="pre-h">Minél jobb a felület, annál hosszabb a nyomtatási idő, ezért az ár is nő. Szálerősített anyagnál az extra finom nem választható.</p>
+      <p class="pre-n">Kézzel módosítottál egy beállítást, ezért az alapbeállítás minősége már nem biztos. Kattints egy opcióra a visszaállításhoz.</p></div>
+    <div class="pre-g" id="gStr"><div class="pre-t">2. Erősség</div>
+      <div class="pre" id="bStr">
+        <button type="button" data-k="deco"><b>Dísz</b><small>1,2 mm fal · 10% kitöltés</small></button>
+        <button type="button" data-k="std"><b>Normál</b><small>1,2 mm fal · 15% kitöltés</small></button>
+        <button type="button" data-k="strong"><b>Erős</b><small>1,6 mm fal · 30% kitöltés</small></button>
+        <button type="button" data-k="max"><b>Extra erős</b><small>2,0 mm fal · 50% kitöltés</small></button>
+      </div>
+      <p class="pre-n">Kézzel módosítottál egy beállítást, ezért az alapbeállítás szilárdsága már nem biztos. Kattints egy opcióra a visszaállításhoz.</p></div><div class="fg"><label for="mat">Filament anyag</label>
         <select id="mat" name="alapanyag">
           <optgroup label="Alapanyagok (Dísz / Prototípus)">
             <option value="1000" data-d="1.24">PLA: 1 000 Ft/100g</option>
@@ -312,6 +364,10 @@ footer{background:var(--ink);color:var(--grey);padding:2rem 0;font:.85rem var(--
             <option value="3000" data-d="1.40">PAHT-CF: 3 000 Ft/100g</option>
           </optgroup>
         </select></div>
+      <p class="pre-h" id="matNote" hidden></p>
+      <div class="adv"><div class="pre-t">Finomhangolás (haladó)</div><div class="adv2">
+      <div class="fg"><label for="noz">Fúvóka</label><select id="noz" name="fuvoka_mm"><option value="0.2">0,2 mm</option><option value="0.4">0,4 mm</option><option value="0.6">0,6 mm</option><option value="0.8">0,8 mm</option></select></div>
+      <div class="fg"><label for="lay">Rétegmagasság</label><select id="lay" name="retegmagassag_mm"><option value="0.06">0,06 mm</option><option value="0.1">0,10 mm</option><option value="0.2">0,20 mm</option><option value="0.28">0,28 mm</option><option value="0.4">0,40 mm</option><option value="0.56">0,56 mm</option></select></div></div>
       <div class="fg"><label for="wall">Külső falvastagság</label>
         <select id="wall" name="falvastagsag">
           <option value="1.2">1,2 mm: standard (3 falréteg)</option>
@@ -320,7 +376,7 @@ footer{background:var(--ink);color:var(--grey);padding:2rem 0;font:.85rem var(--
         </select></div>
       <div class="fg"><label for="inf">Belső kitöltés (infill)</label>
         <div class="rng"><input type="range" id="inf" name="kitoltes" min="10" max="100" step="5" value="15"><b id="infV">15%</b></div></div>
-      <div class="fg"><label for="qty">Darabszám</label><input type="number" id="qty" name="darabszam" value="1" min="1"></div>
+      </div><input type="hidden" id="hPre" name="beallitasok" value="-"><input type="hidden" id="hQ" name="fajlok_darabszama" value="-">
 
       <div class="fg"><label for="notes">Egyéni megjegyzés / Speciális kérések</label>
         <textarea id="notes" name="egyeni_megjegyzés" rows="3" placeholder="Pl. színpreferencia, felületi követelmények, utómunkálatok vagy egyéb egyedi igénysoraid..."></textarea></div>
@@ -329,7 +385,7 @@ footer{background:var(--ink);color:var(--grey);padding:2rem 0;font:.85rem var(--
         <div class="t">Becsült végösszeg</div>
         <div class="a" id="tot">Tölts fel egy fájlt</div>
         <div class="bd">
-          <div><span>Gépidő (200 Ft/óra)</span><span id="bM">0 Ft</span></div>
+          <div><span>Gépidő (450 Ft/óra)</span><span id="bM">0 Ft</span></div>
           <div><span>Filament</span><span id="bF">0 Ft</span></div>
           <div><span>Előkészítés (1 000 Ft/tálca)</span><span id="bT">0 Ft</span></div>
         </div>
@@ -342,8 +398,10 @@ footer{background:var(--ink);color:var(--grey);padding:2rem 0;font:.85rem var(--
           <p><strong>Húzd ide a képet, PDF-et vagy CAD fájlt</strong></p>
           <small>JPG, PNG, PDF, DWG, DXF, STEP, STL, max. 100 MB</small>
           <div class="fi" id="dfi">Nincs fájl kiválasztva</div>
-          <input type="file" id="dfile" name="terv_skicc_file" accept="image/*,.pdf,.dwg,.dxf,.step,.stp,.iges,.igs,.stl,.3mf,.obj,.f3d,.zip" hidden>
+          <input type="file" id="dfile" name="terv_skicc_file" multiple accept="image/*,.pdf,.dwg,.dxf,.step,.stp,.iges,.igs,.stl,.3mf,.obj,.f3d,.zip" hidden>
         </div></div>
+      <div class="flist" id="dList"></div><div class="fmsg" id="dMsg"></div>
+      <div class="stl-preview-wrap" id="dPrev"><div class="stl-preview-tag" id="dTag"></div><div id="dCanvas"></div><img id="dImg" alt="Feltöltött rajz"></div>
       <div class="fg"><label for="det">A terv leírása és a követelmények</label>
         <textarea id="det" name="tervezesi_reszletek" rows="5" placeholder="Mit kell tudnia az alkatrésznek? Mekkora terhelést vagy hőt bír ki? Mik a fő méretek? Van preferált anyag vagy szín?"></textarea></div>
       <div class="fg"><label for="dq">Darabszám a tervezés után</label><input type="number" id="dq" name="tervezett_darabszam" value="1" min="1"></div>
@@ -366,7 +424,7 @@ footer{background:var(--ink);color:var(--grey);padding:2rem 0;font:.85rem var(--
       <li>Bambu Lab X2D nyomtatás</li>
       <li>Támaszeltávolítás és tisztítás</li>
       <li>Fájl gyárthatósági átnézése</li>
-      <li>Gépidő: 200 Ft/óra</li>
+      <li>Gépidő: 450 Ft/óra</li>
       <li>Előkészítés: 1 000 Ft/tálca</li>
     </ul>
     <h3 style="margin-top:1.6rem">Jó tudni</h3>
@@ -391,7 +449,7 @@ footer{background:var(--ink);color:var(--grey);padding:2rem 0;font:.85rem var(--
     <tr><td>TPU 85A</td><td>Extra rugalmas</td><td>2 000 Ft/100g</td></tr>
     <tr><td>PA Nylon</td><td>Mérnöki, kopásálló</td><td>2 500 Ft/100g</td></tr>
     <tr><td>PAHT-CF</td><td>Mérnöki, hőálló</td><td>3 000 Ft/100g</td></tr>
-    <tr><td>Gépidő</td><td>Minden anyagnál</td><td>200 Ft/óra</td></tr>
+    <tr><td>Gépidő</td><td>Minden anyagnál</td><td>450 Ft/óra</td></tr>
     <tr><td>Előkészítés</td><td>Tálcánként</td><td>1 000 Ft</td></tr>
   </table></div>
 </div></section>
@@ -421,7 +479,7 @@ footer{background:var(--ink);color:var(--grey);padding:2rem 0;font:.85rem var(--
 <script>
 const $=id=>document.getElementById(id);
 const FLOW=20; // cm3/ora
-const TRAY=256, GAP=3, RATE=200, TRAYFEE=1000;
+const TRAY=256, GAP=3, RATE=450, TRAYFEE=1000;
 let geo=null;
 const ft=n=>Math.round(n).toLocaleString('hu-HU')+' Ft';
 
@@ -430,19 +488,27 @@ function sel(m){
   $('sPrint').hidden=!p; $('sDesign').hidden=p;
   $('tPrint').setAttribute('aria-pressed',p); $('tDesign').setAttribute('aria-pressed',!p);
   $('hSvc').value=p?'3D nyomtatás kész modellből':'CAD tervezés és gyártás rajz alapján';
-  $('det').required=!p;
+  $('det').required=!p;if(typeof refreshPrev==='function')refreshPrev();
 }
 
-function wire(drop,inp,info,onfile){
-  drop.onclick=()=>inp.click();
+const S={print:[],design:[],selP:0,selD:0};
+const SURF={fine:{n:.2,l:.06},mid:{n:.4,l:.2},rough:{n:.8,l:.56}};
+const STR={deco:{w:1.2,i:10},std:{w:1.2,i:15},strong:{w:1.6,i:30},max:{w:2.0,i:50}};
+const ST={ok:'Belefér',big:'Túl nagy',manual:'Kézi árazás'};
+let surf='mid',stre='std',chain=Promise.resolve();
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const fh=h=>{const t=Math.round(h*60);return Math.floor(t/60)+' ó '+(t%60)+' p'};
+function wire(drop,inp,cb){
+  drop.onclick=e=>{if(e.target!==inp)inp.click()};
   drop.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();inp.click()}};
   ['dragenter','dragover'].forEach(v=>drop.addEventListener(v,e=>{e.preventDefault();drop.classList.add('over')}));
   ['dragleave','drop'].forEach(v=>drop.addEventListener(v,e=>{e.preventDefault();drop.classList.remove('over')}));
-  drop.addEventListener('drop',e=>{if(e.dataTransfer.files.length){inp.files=e.dataTransfer.files;inp.dispatchEvent(new Event('change'))}});
-  inp.addEventListener('change',()=>{const f=inp.files[0];info.textContent=f?f.name:'Nincs fájl kiválasztva';onfile(f)});
+  drop.addEventListener('drop',e=>{if(e.dataTransfer.files.length)cb([...e.dataTransfer.files])});
+  inp.addEventListener('change',()=>{cb([...inp.files]);inp.value=''});
 }
-wire($('drop'),$('file'),$('fi'),parseFile);
-wire($('ddrop'),$('dfile'),$('dfi'),()=>{});
+const enqueue=(k,files)=>{chain=chain.then(()=>addFiles(k,files)).catch(e=>console.warn(e))};
+wire($('drop'),$('file'),f=>enqueue('print',f));
+wire($('ddrop'),$('dfile'),f=>enqueue('design',f));
 
 function stlTris(buf){
   const dv=new DataView(buf);let tris=[];
@@ -513,34 +579,32 @@ function measure(tris){
 }
 
 /* ---- 3D előnézet (Three.js) ---- */
-let scene,camera,renderer,controls,currentMesh,viewerOn=false;
+let scene,camera,renderer,controls,currentMesh,host;
 function sizeViewer(){
-  const c=$('stlCanvasContainer');if(!renderer||!c)return;
-  const w=c.clientWidth;if(!w)return;
+  if(!renderer||!host)return;
+  const w=host.clientWidth;if(!w)return;
   renderer.setSize(w,260,false);camera.aspect=w/260;camera.updateProjectionMatrix();
 }
-function initViewer(){
-  if(viewerOn)return;
-  if(typeof THREE==='undefined'||!THREE.OrbitControls)throw new Error('three.js nem töltődött be');
-  const c=$('stlCanvasContainer');
-  scene=new THREE.Scene();scene.background=new THREE.Color(0x1b1b1d);
-  camera=new THREE.PerspectiveCamera(45,1,.1,5000);
-  renderer=new THREE.WebGLRenderer({antialias:true});
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
-  c.appendChild(renderer.domElement);
-  controls=new THREE.OrbitControls(camera,renderer.domElement);controls.enableDamping=true;
-  scene.add(new THREE.AmbientLight(0x666666));
-  const back=new THREE.DirectionalLight(0x1c3bff,1.6);back.position.set(-1,1,-1.2);scene.add(back);
-  const front=new THREE.DirectionalLight(0xffffff,.85);front.position.set(1,.8,1);scene.add(front);
-  (function loop(){requestAnimationFrame(loop);if(!$('stlCanvasContainer').clientWidth)return;controls.update();renderer.render(scene,camera)})();
-  window.addEventListener('resize',sizeViewer);
-  viewerOn=true;
+function initViewer(c){
+  if(!renderer){
+    if(typeof THREE==='undefined'||!THREE.OrbitControls)throw new Error('three.js nem töltődött be');
+    scene=new THREE.Scene();scene.background=new THREE.Color(0x1b1b1d);
+    camera=new THREE.PerspectiveCamera(45,1,.1,5000);
+    renderer=new THREE.WebGLRenderer({antialias:true});
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
+    controls=new THREE.OrbitControls(camera,renderer.domElement);controls.enableDamping=true;
+    scene.add(new THREE.AmbientLight(0x666666));
+    const back=new THREE.DirectionalLight(0x1c3bff,1.6);back.position.set(-1,1,-1.2);scene.add(back);
+    const front=new THREE.DirectionalLight(0xffffff,.85);front.position.set(1,.8,1);scene.add(front);
+    (function loop(){requestAnimationFrame(loop);if(!host||!host.clientWidth)return;controls.update();renderer.render(scene,camera)})();
+    window.addEventListener('resize',sizeViewer);
+  }
+  host=c;if(renderer.domElement.parentNode!==c)c.appendChild(renderer.domElement);
 }
-function showPreview(tris){
-  const wrap=$('stlPreviewWrap');
+function showPreview(tris,c,wrap){
   try{
     wrap.style.display='block';
-    initViewer();sizeViewer();
+    initViewer(c);sizeViewer();
     if(currentMesh){scene.remove(currentMesh);currentMesh.geometry.dispose()}
     const pos=new Float32Array(tris.length*9);tris.forEach((t,i)=>pos.set(t,i*9));
     const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.BufferAttribute(pos,3));
@@ -553,54 +617,163 @@ function showPreview(tris){
     camera.position.set(d*.62,d*.5,d*.62);controls.target.set(0,0,0);controls.update();
   }catch(err){console.warn('3D előnézet nem elérhető:',err);wrap.style.display='none'}
 }
+function preview(kind){
+  const p=kind==='print',it=S[kind][p?S.selP:S.selD],wrap=$(p?'stlPreviewWrap':'dPrev'),c=$(p?'stlCanvasContainer':'dCanvas');
+  if(!it||!(it.tris||it.img)){wrap.style.display='none';return}
+  $(p?'pTag':'dTag').textContent=it.name+(it.tris?' · egérrel forgatható':'');
+  if(!p){$('dImg').style.display=it.img?'block':'none';c.style.display=it.img?'none':'block';if(it.img)$('dImg').src=it.img}
+  if(it.tris)showPreview(it.tris,c,wrap);else wrap.style.display='block';
+}
+function refreshPrev(){preview(!$('sPrint').hidden?'print':'design')}
 
-function parseFile(f){
-  geo=null;if($('an').dataset.t)$('an').innerHTML=$('an').dataset.t;$('an').style.display=f?'block':'none';
-  $('stlPreviewWrap').style.display='none';
-  if(!f){calc();return}
-  if(f.size>MAX_FILE){showErr('A fájl nagyobb 95 MB-nál. Tömörítsd ZIP-be, vagy írj nekünk e-mailt.');return}
-  const ext=(f.name.match(/\.([^.]+)$/)||[])[1]?.toLowerCase();
-  if(!['stl','obj','3mf'].includes(ext)){showErr('A(z) .'+(ext||'?')+' fájlból nem tudunk azonnali árat számolni. Küldd el az űrlapot, és kézzel árazzuk.',true);return}
-  f.arrayBuffer().then(async buf=>{
-    let tris;
-    try{
-      tris=ext==='stl'?stlTris(buf):ext==='obj'?objTris(new TextDecoder().decode(buf)):await tmfTris(buf);
-      geo=measure(tris);$('vN').textContent=f.name;
-    }catch(e){showErr('A fájlt nem tudtuk elemezni. Az űrlap így is elküldhető, kézzel árazunk.',true);return}
-    calc();
-    showPreview(tris);
+/* ---- fájlok kezelése ---- */
+async function loadTris(f,ext){
+  const buf=await f.arrayBuffer();
+  return ext==='stl'?stlTris(buf):ext==='obj'?objTris(new TextDecoder().decode(buf)):await tmfTris(buf);
+}
+/* Belefér-e a tálcába? Először a tengelyirányú, utána tetszőleges (ferde) elforgatásokat is kipróbálja. */
+function fitCheck(tris,dim){
+  const B=TRAY+.01;
+  if(dim.every(d=>d<=B))return{ok:true};
+  const pts=[],st=Math.max(1,Math.floor(tris.length/1500));
+  for(let i=0;i<tris.length;i+=st)pts.push(...tris[i]);
+  const P=Float32Array.from(pts),N=P.length/3,K=250,ga=Math.PI*(3-Math.sqrt(5));
+  const ext=(ax,ay,az)=>{let a=1e30,b=-1e30;for(let i=0;i<P.length;i+=3){const v=P[i]*ax+P[i+1]*ay+P[i+2]*az;if(v<a)a=v;if(v>b)b=v}return b-a};
+  for(let k=0;k<K;k++){
+    const z=(k+.5)/K,r=Math.sqrt(1-z*z),th=k*ga,wx=r*Math.cos(th),wy=r*Math.sin(th),wz=z;
+    if(ext(wx,wy,wz)>B)continue;
+    const a=Math.abs(wz)<.9?[0,0,1]:[1,0,0];
+    let ux=a[1]*wz-a[2]*wy,uy=a[2]*wx-a[0]*wz,uz=a[0]*wy-a[1]*wx;const ul=Math.hypot(ux,uy,uz);ux/=ul;uy/=ul;uz/=ul;
+    const vx=wy*uz-wz*uy,vy=wz*ux-wx*uz,vz=wx*uy-wy*ux;
+    for(let y=0;y<90;y+=9){
+      const c=Math.cos(y*Math.PI/180),s=Math.sin(y*Math.PI/180);
+      if(ext(ux*c+vx*s,uy*c+vy*s,uz*c+vz*s)<=B&&ext(-ux*s+vx*c,-uy*s+vy*c,-uz*s+vz*c)<=B)return{ok:true,tilt:true};
+    }
+  }
+  const m=Math.max(...dim);
+  return{ok:false,hint:m/10<=TRAY?' Ha a modell tizedakkora lenne, belférne, ez tipikus cm/mm tévesztésre utal.':m/25.4<=TRAY?' Ha a modell 25,4-ed akkora lenne, belférne, ez tipikus inch/mm tévesztésre utal.':''};
+}
+function ask(it,fit){
+  return new Promise(res=>{
+    const d=it.geo.dim.map(x=>x.toFixed(1)).join(' × ');
+    $('mBody').innerHTML='<p><b>'+esc(it.name)+'</b> mérete <b>'+d+' mm</b>. Ez semmilyen elforgatással nem fér be a '+TRAY+' × '+TRAY+' × '+TRAY+' mm-es nyomtatótérbe.</p><p>Gyakori ok, hogy exportáláskor nem milliméter volt a mértékegység (pl. cm, m vagy inch), vagy a modell skálázása nem stimmel.'+(fit.hint||'')+' Érdemes újraexportálni a fájlt milliméterben.</p><p>Ha a méret szándékos, a modellt több részre vágva is kinyomtathatjuk. Ilyenkor egyedi árat adunk.</p>';
+    const m=$('modal');m.hidden=false;$('mCancel').focus();
+    const done=v=>{m.hidden=true;document.removeEventListener('keydown',kd);res(v)};
+    const kd=e=>{if(e.key==='Escape')done(false)};
+    document.addEventListener('keydown',kd);
+    $('mGo').onclick=()=>done(true);$('mCancel').onclick=()=>done(false);
   });
 }
-function showErr(msg,info){
-  $('an').style.display='block';
-  $('an').innerHTML='<div class="'+(info?'note':'err')+'">'+msg+'</div>';geo=null;
-  $('tot').textContent='Egyedi ajánlat';$('stlPreviewWrap').style.display='none';
+async function addFiles(kind,files){
+  const p=kind==='print',L=S[kind],msg=$(p?'pMsg':'dMsg');msg.textContent='';
+  for(const f of files){
+    const ext=((f.name.match(/\.([^.]+)$/)||[])[1]||'').toLowerCase();
+    if(f.size>MAX_FILE){msg.textContent='A(z) '+f.name+' nagyobb 95 MB-nál, ezért kihagytuk. Tömörítsd ZIP-be, vagy küldd el e-mailben.';continue}
+    const it={f,name:f.name,ext,qty:1,state:'ok'};
+    if(!p&&/^(jpe?g|png|gif|webp|bmp|svg)$/.test(ext))it.img=URL.createObjectURL(f);
+    if(['stl','obj','3mf'].includes(ext)){try{it.tris=await loadTris(f,ext);it.geo=measure(it.tris)}catch(e){it.tris=null;it.geo=null}}
+    if(p){
+      if(!it.geo)it.state='manual';
+      else{
+        const fit=fitCheck(it.tris,it.geo.dim);
+        if(!fit.ok){if(!await ask(it,fit))continue;it.state='big'}else it.tilt=fit.tilt;
+      }
+    }
+    L.push(it);
+    if(p)S.selP=L.length-1;else S.selD=L.length-1;
+    renderList(kind);preview(kind);calc();
+  }
+}
+function renderList(kind){
+  const p=kind==='print',L=S[kind],sel=p?S.selP:S.selD;
+  $(p?'pList':'dList').innerHTML=L.map((it,i)=>'<div class="frow'+(i===sel?' sel':'')+(it.state==='big'?' bad':'')+'" data-i="'+i+'"><button type="button" class="fn" data-a="s">'+esc(it.name)+'</button>'+(p?'<span class="fs">'+(it.state==='ok'?'Darabszám':ST[it.state]+' · darabszám')+'</span><input type="number" class="fq" min="1" value="'+it.qty+'" aria-label="Darabszám">':'')+'<button type="button" class="fx" data-a="x" aria-label="Eltávolítás">×</button></div>').join('');
+  $(p?'fi':'dfi').textContent=L.length?L.length+' fájl kiválasztva':'Nincs fájl kiválasztva';
+}
+function setSel(k,i){if(k==='print')S.selP=i;else S.selD=i;renderList(k);preview(k);if(k==='print')renderInfo()}
+function removeItem(k,i){
+  const L=S[k];if(L[i].img)URL.revokeObjectURL(L[i].img);L.splice(i,1);
+  const s=Math.max(0,Math.min(k==='print'?S.selP:S.selD,L.length-1));
+  if(k==='print')S.selP=s;else S.selD=s;
+  renderList(k);preview(k);calc();
+}
+['print','design'].forEach(k=>{
+  const box=$(k==='print'?'pList':'dList');
+  box.addEventListener('click',e=>{const row=e.target.closest('.frow'),b=e.target.closest('button');if(!row||!b)return;const i=+row.dataset.i;if(b.dataset.a==='x')removeItem(k,i);else setSel(k,i)});
+  box.addEventListener('input',e=>{if(e.target.classList.contains('fq')){S[k][+e.target.closest('.frow').dataset.i].qty=Math.max(1,Math.floor(+e.target.value)||1);calc()}});
+});
+
+/* ---- előbeállítások ---- */
+const mark=(id,k)=>[...$(id).children].forEach(b=>b.setAttribute('aria-pressed',b.dataset.k===k));
+const LAY={'0.2':[.06,.08,.1,.12,.14],'0.4':[.08,.12,.16,.2,.24,.28],'0.6':[.18,.24,.3,.36,.42],'0.8':[.24,.32,.4,.48,.56]};
+function layOpts(){
+  const sel=$('lay'),cur=+sel.value,arr=LAY[$('noz').value];
+  sel.innerHTML=arr.map(v=>'<option value="'+v+'">'+v.toFixed(2).replace('.',',')+' mm</option>').join('');
+  sel.value=arr.reduce((a,b)=>Math.abs(b-cur)<Math.abs(a-cur)?b:a);
+}
+function syncDim(){
+  const s=SURF[surf],t=STR[stre];
+  $('gSurf').classList.toggle('dim',!(s.n===+$('noz').value&&s.l===+$('lay').value));
+  $('gStr').classList.toggle('dim',!(t.w===+$('wall').value&&t.i===+$('inf').value));
+}
+function pickSurf(k){surf=k;const s=SURF[k];$('noz').value=s.n;layOpts();$('lay').value=s.l;mark('bSurf',k);syncDim();calc()}
+function pickStr(k){stre=k;const t=STR[k];$('wall').value=t.w.toFixed(1);$('inf').value=t.i;$('infV').textContent=t.i+'%';mark('bStr',k);syncDim();calc()}
+function matCh(){
+  const cf=/-CF/.test($('mat').selectedOptions[0].text),nt=$('matNote');
+  $('noz').options[0].disabled=cf;$('bSurf').querySelector('[data-k=fine]').disabled=cf;
+  let sw='';
+  if(cf&&+$('noz').value===.2){pickSurf('mid');sw='Normál felületre váltottunk. '}
+  nt.hidden=!cf;nt.textContent=sw+'Szálerősített anyagnál nem használható a 0,2 mm-es fúvóka (a szál eltömíti), ezért az extra finom felület nem választható.';
+  calc();
 }
 
+/* ---- árszámítás ---- */
+function renderInfo(){
+  const an=$('an'),it=S.print[S.selP];
+  if(!it){an.style.display='none';return}
+  an.style.display='block';
+  if(!it.geo){an.innerHTML='<div class="note">A(z) .'+esc(it.ext||'?')+' fájlból nem tudunk azonnali árat számolni. Küldd el az űrlapot, és kézzel árazzuk.</div>';return}
+  const row=(a,b)=>'<div><span>'+a+'</span><strong>'+b+'</strong></div>';
+  let h=row('Fájlnév',esc(it.name))+row('Befoglaló méret (X×Y×Z)',it.geo.dim.map(x=>x.toFixed(1)).join(' × ')+' mm')+row('Térfogat',it.geo.vol.toFixed(1)+' cm³');
+  h+=it.r?row('Darab / tálca',it.r.per+' db')+row('Becsült súly (összesen)',Math.round(it.r.w)+' g')+row('Becsült nyomtatási idő',fh(it.r.h)):'<div class="note">Túl nagy a nyomtatótérhez: feldarabolással, egyedi árral készül.</div>';
+  an.innerHTML=h;
+}
+/* Az összes fájl példányait közös tálcákra rakja (azonos anyag és beállítás mellett), polcos csomagolással. */
+function packTrays(r){
+  r.sort((a,b)=>b[1]-a[1]||b[0]-a[0]);
+  const trays=[];
+  for(const [w,h] of r){
+    let ok=false;
+    for(const t of trays){
+      for(const s of t.s){if(h<=s.h&&s.x+w<=TRAY){s.x+=w;ok=true;break}}
+      if(!ok&&t.y+h<=TRAY){t.s.push({h,x:w});t.y+=h;ok=true}
+      if(ok)break;
+    }
+    if(!ok)trays.push({s:[{h,x:w}],y:h});
+  }
+  return trays.length;
+}
 function calc(){
-  $('hMatText').value=$('mat').selectedOptions[0].textContent;
-  if(!geo){$('tot').textContent='Tölts fel egy fájlt';['hVol','hDim','hW','hT','hP'].forEach(k=>$(k).value='Nincs megadva');return}
-  const sel=$('mat').selectedOptions[0],pp100g=+sel.value,den=+sel.dataset.d;
-  const wall=+$('wall').value/10,inf=+$('inf').value/100,qty=Math.max(1,+$('qty').value||1);
-  const shell=Math.min(geo.vol,geo.area*wall);
-  const used=shell+(geo.vol-shell)*inf;
-  const g1=used*den,hours1=used/FLOW,[x,y,z]=geo.dim;
-  const per=Math.max(1,Math.floor(TRAY/(x+GAP))*Math.floor(TRAY/(y+GAP)));
-  const trays=Math.ceil(qty/per);
-  const wTot=g1*qty,hTot=hours1*qty;
-  const cM=hTot*RATE,cF=(wTot/100)*pp100g,cT=trays*TRAYFEE,total=cM+cF+cT;
-  const big=x>TRAY||y>TRAY||z>256;
-  $('vD').textContent=geo.dim.map(d=>d.toFixed(1)).join(' × ')+' mm';
-  $('vV').textContent=geo.vol.toFixed(1)+' cm³';
-  $('vC').textContent=big?'túl nagy: egyeztetünk':per+' db';
-  $('vW').textContent=Math.round(wTot)+' g';
-  const hh=Math.floor(hTot),mm=Math.round((hTot-hh)*60);
-  const tt=hh+' ó '+mm+' p';
-  $('vT').textContent=tt;
+  const mo=$('mat').selectedOptions[0];$('hMatText').value=mo.textContent;
+  const pp=+mo.value,den=+mo.dataset.d,wall=+$('wall').value/10,inf=+$('inf').value/100,nz=+$('noz').value,ly=+$('lay').value;
+  const flow=FLOW*(nz*ly)/(.4*.2);   // térfogatáram: a 0,4 mm / 0,2 mm a viszonyítási alap
+  const rects=[];let cM=0,cF=0,cT=0,wT=0,hT=0,vT=0,odd=0,ok=0;
+  for(const it of S.print){
+    if(it.state!=='ok'||!it.geo){odd++;it.r=null;continue}
+    const g=it.geo,[x,y]=g.dim,shell=Math.min(g.vol,g.area*wall),used=shell+(g.vol-shell)*inf;
+    const per=it.tilt?1:Math.max(1,Math.floor(TRAY/(x+GAP))*Math.floor(TRAY/(y+GAP)));for(let q=0;q<it.qty;q++)rects.push(it.tilt?[TRAY,TRAY]:[Math.min(TRAY,Math.max(x,y)+GAP),Math.min(TRAY,Math.min(x,y)+GAP)]);
+    const w=used*den*it.qty,h=used/flow*it.qty;
+    it.r={w,h,per};cM+=h*RATE;cF+=w/100*pp;wT+=w;hT+=h;vT+=g.vol*it.qty;ok++;
+  }
+  cT=packTrays(rects)*TRAYFEE;const tot=cM+cF+cT,none='Nincs megadva',n=S.print.length;
   $('bM').textContent=ft(cM);$('bF').textContent=ft(cF);$('bT').textContent=ft(cT);
-  $('tot').textContent=big?'Egyedi ajánlat':ft(total);
-  $('hVol').value=geo.vol.toFixed(1)+' cm³';$('hDim').value=$('vD').textContent;
-  $('hW').value=Math.round(wTot)+' g';$('hT').value=tt;$('hP').value=big?'egyedi':ft(total);
+  $('tot').textContent=!n?'Tölts fel egy fájlt':!ok?'Egyedi ajánlat':ft(tot)+(odd?' + egyedi':'');
+  $('hVol').value=ok?vT.toFixed(1)+' cm³':none;
+  $('hDim').value=S.print.filter(i=>i.geo).map(i=>i.name+': '+i.geo.dim.map(d=>d.toFixed(1)).join('×')).join(' | ')||none;
+  $('hW').value=ok?Math.round(wT)+' g':none;$('hT').value=ok?fh(hT):none;
+  $('hP').value=!n?none:!ok?'egyedi':ft(tot)+(odd?' + egyedi (kézi árazású vagy túl nagy fájl)':'');
+  $('hQ').value=S.print.map(i=>i.name+' x'+i.qty+' ['+ST[i.state]+']').join('; ')||'-';
+  $('hPre').value='Fúvóka '+nz+' mm, réteg '+ly+' mm, fal '+$('wall').value+' mm, kitöltés '+$('inf').value+'% | Felület: '+($('gSurf').classList.contains('dim')?'kézzel módosítva':surf)+' | Erősség: '+($('gStr').classList.contains('dim')?'kézzel módosítva':stre);
+  renderInfo();
 }
 
 /* ---- beküldés (Web3Forms) ---- */
@@ -635,22 +808,19 @@ $('quoteForm').addEventListener('submit',async function(e){
   const btn=$('btnSend'),st=$('formStatus');
   btn.disabled=true;btn.textContent='Küldés folyamatban...';st.className='form-status';
   const fd=new FormData(this);
-  const f=(!$('sPrint').hidden?$('file'):$('dfile')).files[0];
+  const L=!$('sPrint').hidden?S.print:S.design;
   fd.delete('stl_file');fd.delete('terv_skicc_file');
-  if(f){
-    const maxAllowed=UPLOAD_URL?MAX_FILE:ATT_MAX*2;
-    fd.set('fajl_neve',f.name+' ('+(f.size/1048576).toFixed(1)+' MB)');
-    let linked=false;
-    if(UPLOAD_URL){
-      if(f.size>MAX_FILE){st.className='form-status error';st.textContent='A fájl nagyobb 100 MB-nál. Tömörítsd ZIP-be, vagy küldd e-mailben.';btn.disabled=false;btn.textContent='Ajánlatkérés elküldése';return}
-      try{
-        const link=await uploadFile(f,p=>btn.textContent='Fájl feltöltése... '+p+'%');
-        fd.set('fajl_letoltese',link);linked=true;
-      }catch(err){console.warn('Feltöltés sikertelen:',err)}   // nem állítjuk meg a küldést
-      btn.textContent='Küldés folyamatban...';
+  if(L.length){
+    fd.set('fajl_neve',L.map(it=>it.name+' ('+(it.f.size/1048576).toFixed(1)+' MB)').join(', '));
+    const links=[],fails=[];
+    for(let k=0;k<L.length;k++){
+      const f=L[k].f;
+      try{const link=await uploadFile(f,p=>btn.textContent='Fájl feltöltése ('+(k+1)+'/'+L.length+') '+p+'%');links.push(f.name+': '+link)}
+      catch(err){console.warn('Feltöltés sikertelen:',err);fails.push(f.name)}
     }
-    if(SEND_ATTACHMENT&&f.size<=ATT_MAX)fd.append('attachment',f);
-    else if(!linked)fd.set('megjegyzes_fajlrol','A fájl nem került csatolásra, kérd el az ügyféltől ('+f.name+').');
+    if(links.length)fd.set('fajl_letoltese',links.join('\n'));
+    if(fails.length)fd.set('megjegyzes_fajlrol','Nem sikerült feltölteni, kérd el az ügyféltől: '+fails.join(', '));
+    btn.textContent='Küldés folyamatban...';
   }
   fd.set('replyto',$('em').value);
   fd.set('from_name','3Dlab.xyz');
@@ -663,7 +833,7 @@ $('quoteForm').addEventListener('submit',async function(e){
     }
     if(res.ok){
       st.className='form-status success';st.textContent='Köszönjük! Az ajánlatkérést sikeresen elküldtük.';
-      this.reset();geo=null;
+      this.reset();S.print=[];S.design=[];S.selP=S.selD=0;renderList('print');renderList('design');pickSurf('mid');pickStr('std');matCh();
       $('fi').textContent='Nincs fájl kiválasztva';$('dfi').textContent='Nincs fájl kiválasztva';
       $('an').style.display='none';$('stlPreviewWrap').style.display='none';
       $('tot').textContent='Tölts fel egy fájlt';$('infV').textContent=$('inf').value+'%';calc();
@@ -673,9 +843,13 @@ $('quoteForm').addEventListener('submit',async function(e){
 });
 
 document.addEventListener('DOMContentLoaded',()=>{$('an').dataset.t=$('an').innerHTML;sel('print')});
-$('mat').onchange=$('wall').onchange=calc;
-$('qty').oninput=calc;
-$('inf').oninput=e=>{$('infV').textContent=e.target.value+'%';calc()};
+$('mat').onchange=matCh;
+$('noz').onchange=()=>{layOpts();syncDim();calc()};
+$('lay').onchange=$('wall').onchange=()=>{syncDim();calc()};
+$('inf').oninput=e=>{$('infV').textContent=e.target.value+'%';syncDim();calc()};
+$('bSurf').onclick=e=>{const b=e.target.closest('button');if(b&&!b.disabled)pickSurf(b.dataset.k)};
+$('bStr').onclick=e=>{const b=e.target.closest('button');if(b)pickStr(b.dataset.k)};
+pickSurf('mid');pickStr('std');matCh();
 </script>
 <script>
 /* Beépített szerkesztő (#szerkeszt) */
