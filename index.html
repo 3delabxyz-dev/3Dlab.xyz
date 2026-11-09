@@ -207,6 +207,13 @@ footer{background:var(--ink);color:var(--grey);padding:2rem 0;font:.85rem var(--
 .mbox p{margin-bottom:.8rem;font-size:.95rem}
 .mbtn{display:flex;gap:1rem;flex-wrap:wrap;margin-top:1.4rem}
 .mbtn .btn{box-shadow:4px 4px 0 var(--ink);padding:.8rem 1.1rem;font-size:.9rem}
+.guides{list-style:none;border:var(--bd);background:var(--off);max-width:860px}
+.guides li{border-bottom:var(--bd)}.guides li:last-child{border:0}
+.guides a{display:block;padding:1rem 1.2rem;font-weight:900;text-transform:uppercase;letter-spacing:-.01em;text-decoration:none}
+.guides a:hover{background:var(--ink);color:var(--off)}
+.guides a span{display:block;font-weight:400;text-transform:none;letter-spacing:0;font-size:.9rem}
+.card p{margin-bottom:1rem}.card h3{font-size:1.4rem;margin-bottom:.8rem}.card .btn{margin-top:.4rem}
+.card .bd2{margin-top:.6rem}
 </style>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
@@ -487,6 +494,12 @@ footer{background:var(--ink);color:var(--grey);padding:2rem 0;font:.85rem var(--
   <p class="lead">A 3Dlab.xyz budapesti 3D nyomtatási szolgáltatás: egyedi alkatrészeket, prototípusokat és kis sorozatokat gyártunk Bambu Lab X2D nyomtatókkal, a PLA-tól és PETG-től a szálerősített, rugalmas és mérnöki anyagokig (TPU, nylon, PAHT-CF). STL, 3MF vagy OBJ fájlnál a kalkulátor azonnal becsült árat ad. Ha nincs modelled, rajz, fotó vagy minta alapján megtervezzük, majd kinyomtatjuk.</p>
 </div></section>
 
+<section class="layers"><div class="wrap">
+  <h2>Útmutatók</h2>
+  <p class="lead">Hasznos tudnivalók a 3D nyomtatásról, árakról és anyagokról.</p>
+  <ul class="guides"><li><a href="mennyibe-kerul-a-3d-nyomtatas.html">Mennyibe kerül a 3D nyomtatás?<span>Árképlet, számítási példa és tippek az olcsóbb nyomtatáshoz</span></a></li><li><a href="melyik-filamentet-valasszam.html">Melyik filamentet válasszam?<span>PLA, PETG, CF, TPU, nylon és speciális anyagok összehasonlítása</span></a></li><li><a href="tpu-alkatresz-nyomtatas.html">TPU alkatrész nyomtatás<span>Tömítések, harmonikák és ütközővédők rugalmas anyagból</span></a></li><li><a href="nylon-fogaskerek-3d-nyomtatas.html">Nylon fogaskerék 3D nyomtatás<span>Kopásálló PA és hőálló PAHT-CF alkatrészek</span></a></li><li><a href="cad-tervezes-3d-nyomtatas-rajz-alapjan.html">CAD tervezés rajz alapján<span>Nincs 3D modelled? Rajz, fotó vagy minta alapján megtervezzük</span></a></li></ul>
+</div></section>
+
 <section id="gyik" class="layers"><div class="wrap">
   <h2>Gyakori kérdések</h2>
   <p class="lead">Ami a legtöbbeket érdekli rendelés előtt.</p>
@@ -497,7 +510,7 @@ footer{background:var(--ink);color:var(--grey);padding:2rem 0;font:.85rem var(--
   <details><summary>Melyik anyagot válasszam?</summary><p>Díszhez és prototípushoz a PLA/PETG a jó választás. Terhelt vagy hőnek kitett alkatrészhez PA Nylont vagy PAHT-CF-et ajánlunk. Ha bizonytalan vagy, írd le a felhasználást az űrlapon.</p></details>
 </div></section>
 
-<footer><div class="wrap">© 2026 3Dlab.xyz · 3D nyomtatás Budapest · 3delab.xyz@gmail.com - +36 30 420 3097</div></footer>
+<footer><div class="wrap">© 2026 3Dlab.xyz · 3D nyomtatás Budapest · <a href="mennyibe-kerul-a-3d-nyomtatas.html">Árak</a> · <a href="melyik-filamentet-valasszam.html">Filamentek</a> · 3delab.xyz@gmail.com - +36 30 420 3097</div></footer>
 
 <script>
 const $=id=>document.getElementById(id);
@@ -869,7 +882,7 @@ $('quoteForm').addEventListener('submit',async function(e){
   btn.disabled=false;btn.textContent='Ajánlatkérés elküldése';
 });
 
-document.addEventListener('DOMContentLoaded',()=>{$('an').dataset.t=$('an').innerHTML;sel('print')});
+document.addEventListener('DOMContentLoaded',()=>{$('an').dataset.t=$('an').innerHTML;sel('print');if(location.hash==='#tervezes'){sel('design');$('arajanlat').scrollIntoView()}});
 $('mat').onchange=matCh;
 $('noz').onchange=()=>{layOpts();syncDim();calc()};
 $('lay').onchange=$('wall').onchange=()=>{syncDim();calc()};
